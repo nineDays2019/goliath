@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'DrawerPage.dart';
+
 class HomePage extends StatefulWidget {
   final String title;
 
@@ -30,14 +32,17 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 16.0,
                   ),
                 ),
-//                background: Image.network(
-//                  "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-//                  fit: BoxFit.cover,
-//                ),
+                background: Image.network(
+                  "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                  fit: BoxFit.cover,
+                ),
               ),
               actions: <Widget>[
                 new IconButton(
-                  icon: Icon(Icons.more_vert),
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: Colors.white,
+                  ),
                   onPressed: null,
                   tooltip: "更多",
                 )
@@ -45,8 +50,9 @@ class _HomePageState extends State<HomePage> {
             )
           ];
         },
-        body: Center(
-          child: Text("Content"),
+        body: ListView.builder(
+          itemBuilder: buildItem,
+          itemCount: 1000,
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -54,6 +60,20 @@ class _HomePageState extends State<HomePage> {
         tooltip: "做点什么",
         child: Icon(Icons.add),
       ),
+      drawer: Drawer(
+        child: DrawerPage(),
+      ),
+    );
+  }
+
+  Widget buildItem(BuildContext context, int index) {
+    if (index.isOdd) {
+      return new Divider();
+    }
+    var textStyle = new TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0);
+    return new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: new Text("To do $index", style: textStyle),
     );
   }
 }
