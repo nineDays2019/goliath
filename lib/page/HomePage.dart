@@ -43,7 +43,10 @@ class _HomePageState extends State<HomePage> {
                     Icons.more_vert,
                     color: Colors.white,
                   ),
-                  onPressed: null,
+                  onPressed: () =>
+                      Scaffold.of(context).showSnackBar(new SnackBar(
+                        content: Text("More"),
+                      )),
                   tooltip: "更多",
                 )
               ],
@@ -56,7 +59,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () => print("做点什么"),
         tooltip: "做点什么",
         child: Icon(Icons.add),
       ),
