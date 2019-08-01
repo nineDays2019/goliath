@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:goliath/page/CodeWarsPage.dart';
+import 'package:goliath/service/AccountService.dart';
 
 class DrawerPage extends StatelessWidget {
   @override
@@ -33,9 +34,7 @@ class DrawerPage extends StatelessWidget {
           ),
           title: new Text("Drawer item B"),
           subtitle: new Text("Nice to meet you"),
-          onTap: () {
-
-          },
+          onTap: () {},
         ),
         new AboutListTile(
           icon: new CircleAvatar(child: new Text("Ab")),
@@ -56,10 +55,19 @@ class DrawerPage extends StatelessWidget {
   }
 
   static Widget drawerHeader() {
+    getNickname() {
+      var service = AccountService.getInstance();
+      if (service.online()) {
+        return service.currentAccount().getNickname();
+      } else {
+        return "未登录";
+      }
+    }
+
     return new UserAccountsDrawerHeader(
       margin: EdgeInsets.zero,
       accountName: new Text(
-        "Juhezi",
+        getNickname(),
       ),
       accountEmail: new Text("Juhezix@163.com"),
       currentAccountPicture: new CircleAvatar(
