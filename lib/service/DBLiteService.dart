@@ -1,20 +1,37 @@
-class DatabaseService {
-  static DatabaseService _instance;
+import 'package:shared_preferences/shared_preferences.dart';
 
-  factory DatabaseService() => _sharedInstance();
+class DBLiteService {
+  static DBLiteService _instance;
 
-  /**
-   * 私有构造函数
-   */
-  DatabaseService._() {
-    // todo init code
-  }
+  factory DBLiteService() => _sharedInstance();
 
-  static DatabaseService _sharedInstance() {
+  DBLiteService._();
+
+  static DBLiteService _sharedInstance() {
     if (_instance == null) {
-      _instance = DatabaseService._();
+      _instance = DBLiteService._();
     }
     return _instance;
   }
 
+  SharedPreferences _preferences;
+
+  _getPreferences() async {
+    if (_preferences == null) {
+      _preferences = await SharedPreferences.getInstance();
+    }
+    return _preferences;
+  }
+
+  write(String key, String value) async {
+    await (await _getPreferences()).setString(key, value);
+  }
+
+  read(String key) async {
+    return await (await _getPreferences()).getString(key);
+  }
+
+  remove(String key) async {
+    (await _getPreferences()).remove(key);
+  }
 }

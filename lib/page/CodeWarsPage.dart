@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goliath/service/CodeWarsService.dart';
+import 'package:goliath/service/DBService.dart';
 
 class CodeWarsSearchPage extends StatelessWidget {
   @override
@@ -88,6 +89,10 @@ gotoSearch(BuildContext context) async {
 }
 
 class CodeWarsSearchDelegate extends SearchDelegate<String> {
+  static const DB_NAME = "CodeWarsHistory";
+
+  var dbService = new DBService(DB_NAME);
+
   // 返回一个控件列表，显示为搜索框右面的图标
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -120,7 +125,6 @@ class CodeWarsSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // ignore: sdk_version_ui_as_code
     return ListTile(
       leading: Icon(
         Icons.code,
