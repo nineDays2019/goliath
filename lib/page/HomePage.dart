@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'DrawerPage.dart';
+import 'codewars/CodeWarsProfilePage.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -45,8 +46,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   onPressed: () =>
                       Scaffold.of(context).showSnackBar(new SnackBar(
-                        content: Text("More"),
-                      )),
+                    content: Text("More"),
+                  )),
                   tooltip: "更多",
                 )
               ],
@@ -59,7 +60,10 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => print("做点什么"),
+        onPressed: () => Navigator.push(
+            context,
+            new MaterialPageRoute(
+                builder: (context) => new CodeWarsProfilePage())),
         tooltip: "做点什么",
         child: Icon(Icons.add),
       ),

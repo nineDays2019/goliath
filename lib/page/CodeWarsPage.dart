@@ -84,8 +84,8 @@ gotoSearch(BuildContext context) async {
   String result = await showSearch<String>(
       context: context, delegate: CodeWarsSearchDelegate());
   print("key: $result");
-  String json = await CodeWarsService.queryUser(result);
-  print(json);
+//  String json = await CodeWarsService.requestUser(result);
+//  print(json);
 }
 
 class CodeWarsSearchDelegate extends SearchDelegate<String> {
