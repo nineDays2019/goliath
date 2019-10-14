@@ -15,6 +15,7 @@ dependencies:
 dev_dependencies:
   shared_preferences: ^0.5.3+4
   sqflite: ^1.1.6
+  dio: 3.0.3
   flutter_test:
     sdk: flutter
 

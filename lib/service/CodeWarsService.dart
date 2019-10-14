@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dio/dio.dart';
 
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
 
 class CodeWarsService {
+
+  static var dio = new Dio();
   static const BASE_URL = "https://www.codewars.com";
 
   /**
@@ -11,23 +14,22 @@ class CodeWarsService {
    */
   static Future<CodeWarsUser> requestUser(String idOrUsername) async {
     var url = "$BASE_URL/api/v1/users/$idOrUsername";
-    var httpClient = new HttpClient();
-    CodeWarsUser user;
     try {
-      var request = await httpClient.getUrl(Uri.parse(url));
-      var response = await request.close();
-      if (response.statusCode == HttpStatus.ok) {
+      var response = await Dio().get(url);
+      print("return: ${response.data}");
+      return new CodeWarsUser();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+    /*if (response.statusCode == HttpStatus.ok) {
         var json = await response.transform(utf8.decoder).join();
         print(json);
         return new CodeWarsUser();
       } else {
         print("Not OK");
         return null;
-      }
-    } catch (exception) {
-      print("[error]: " + exception.toString());
-      return null;
-    }
+      }*/
   }
 }
 
