@@ -15,12 +15,6 @@ class CodeWarsSearchPage extends StatelessWidget {
   }
 }
 
-/*new ListView(
-        children: <Widget>[
-          new CodeWarsProfileHeader(),
-        ],
-      )*/
-
 class CodeWarsProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

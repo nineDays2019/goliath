@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goliath/page/CodeWarsPage.dart';
+import 'package:goliath/deprecated/SearchPage.dart';
 import 'package:goliath/service/AccountService.dart';
 
 class DrawerPage extends StatelessWidget {

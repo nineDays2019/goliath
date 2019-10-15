@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import 'DrawerPage.dart';
 import 'codewars/CodeWarsProfilePage.dart';
+import 'todo/SearchTodoPage.dart';
 
 class HomePage extends StatefulWidget {
   final String title;
@@ -39,6 +40,14 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               actions: <Widget>[
+                _buildVoiceInput(),
+                new IconButton(
+                    tooltip: 'Search',
+                    icon: new Icon(
+                      Icons.search,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => showSearchTodoPage(context)),
                 new IconButton(
                   icon: Icon(
                     Icons.more_vert,
@@ -83,4 +92,32 @@ class _HomePageState extends State<HomePage> {
       child: new Text("To do $index", style: textStyle),
     );
   }
+
+  void showSearchTodoPage(BuildContext context) async {
+    final String result =
+        await showSearch(context: context, delegate: SearchTodoDelegate());
+    if (result != null) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('搜索： $result'),
+      ));
+    }
+  }
 }
+
+Widget _buildVoiceInput({String label, VoidCallback onPressed}) => new Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Row(
+        children: <Widget>[
+          FlatButton(
+            child: Text(
+              label,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.mic),
+            onPressed: onPressed,
+          ),
+        ],
+      ),
+    );
