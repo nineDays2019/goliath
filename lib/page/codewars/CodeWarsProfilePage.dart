@@ -6,6 +6,7 @@ import 'package:goliath/model/codewars/CodeWarsUser.dart';
 import 'package:goliath/page/common/CommonErrorPage.dart';
 import 'package:goliath/page/common/CommonLoadingPage.dart';
 import 'package:goliath/service/CodeWarsService.dart';
+import 'package:goliath/widgets/CommonShadowContainer.dart';
 
 class CodeWarsProfilePage extends StatelessWidget {
   @override
@@ -64,35 +65,6 @@ class _ProfileContainerState extends State<_ProfileContainer> {
   }
 }
 
-class _ErrorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-      color: Colors.grey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          CircularProgressIndicator(),
-          Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: FlatButton(
-                child: Text(
-                  "取消",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ))
-        ],
-      ),
-    );
-  }
-}
-
 class _ProfilePage extends StatelessWidget {
   final CodeWarsUser user;
 
@@ -108,32 +80,36 @@ class _ProfilePage extends StatelessWidget {
               expandedHeight: 200.0,
               floating: false,
               pinned: true,
+              brightness: Brightness.dark,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                title: Text(
-                  "HelloWorld",
+                title: CommonShadowContainer(
+                    child: Text(
+                  user.name,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
                   ),
-                ),
-                background: Image.network(
-                  "http://5b0988e595225.cdn.sohucs.com/images/20190630/8f6246163fe84cc4ab5df9e317ba5fc5.jpeg",
+                )),
+                background: Image.asset(
+                  "images/codewars_content.jpg",
                   fit: BoxFit.cover,
                 ),
               ),
               actions: <Widget>[
-                new IconButton(
+                IconButton(
                   icon: Icon(
                     Icons.more_vert,
                     color: Colors.white,
                   ),
-                  onPressed: () =>
-                      Scaffold.of(context).showSnackBar(new SnackBar(
-                    content: Text("More"),
-                  )),
+                  onPressed: () {
+                    Scaffold.of(context).showSnackBar(new SnackBar(
+                      content: Text("More"),
+                    ));
+                    print(user.ranks.overall.name);
+                  },
                   tooltip: "更多",
-                )
+                ),
               ],
             )
           ];

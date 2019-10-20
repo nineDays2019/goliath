@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
 
 class CodeWarsService {
-
   static var dio = new Dio();
   static const BASE_URL = "https://www.codewars.com";
 
@@ -17,7 +16,7 @@ class CodeWarsService {
     try {
       var response = await Dio().get(url);
       print("return: ${response.data}");
-      return new CodeWarsUser();
+      return new CodeWarsUser.fromJson(response.data);
     } catch (e) {
       print(e);
       return null;

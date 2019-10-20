@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               actions: <Widget>[
-                _buildVoiceInput(),
                 new IconButton(
                     tooltip: 'Search',
                     icon: new Icon(
@@ -103,21 +102,3 @@ class _HomePageState extends State<HomePage> {
     }
   }
 }
-
-Widget _buildVoiceInput({String label, VoidCallback onPressed}) => new Padding(
-      padding: const EdgeInsets.all(12.0),
-      child: Row(
-        children: <Widget>[
-          FlatButton(
-            child: Text(
-              label,
-              style: const TextStyle(color: Colors.white),
-            ),
-          ),
-          IconButton(
-            icon: Icon(Icons.mic),
-            onPressed: onPressed,
-          ),
-        ],
-      ),
-    );
