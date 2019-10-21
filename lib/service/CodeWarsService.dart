@@ -15,7 +15,7 @@ class CodeWarsService {
     var url = "$BASE_URL/api/v1/users/$idOrUsername";
     try {
       var response = await Dio().get(url);
-      print("return: ${response.data}");
+//      print("return: ${response.data}");
       return new CodeWarsUser.fromJson(response.data);
     } catch (e) {
       print(e);

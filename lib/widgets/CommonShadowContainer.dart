@@ -11,7 +11,8 @@ class CommonShadowContainer extends Container {
               offset: Offset(0.0, 15.0),
               blurRadius: 15.0,
               spreadRadius: 1.0,
-            )
+
+    )
           ])})
       : super(child: child, decoration: decoration);
 }

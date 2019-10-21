@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
+import 'package:goliath/other/color.dart';
 import 'package:goliath/page/common/CommonErrorPage.dart';
 import 'package:goliath/page/common/CommonLoadingPage.dart';
 import 'package:goliath/service/CodeWarsService.dart';
@@ -83,16 +84,15 @@ class _ProfilePage extends StatelessWidget {
               brightness: Brightness.dark,
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-                title: CommonShadowContainer(
-                    child: Text(
-                  user.name,
+                title: Text(
+                  user.username,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
                   ),
-                )),
+                ),
                 background: Image.asset(
-                  "images/codewars_content.jpg",
+                  "images/codewars_content.png",
                   fit: BoxFit.cover,
                 ),
               ),
@@ -114,9 +114,8 @@ class _ProfilePage extends StatelessWidget {
             )
           ];
         },
-        body: ListView.builder(
-          itemBuilder: buildItem,
-          itemCount: 1000,
+        body: MessageCard(
+          user: user,
         ),
       ),
     );
@@ -135,10 +134,128 @@ class _ProfilePage extends StatelessWidget {
 }
 
 class MessageCard extends StatelessWidget {
+  final CodeWarsUser user;
+
+  MessageCard({Key key, this.user}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Padding(
+        padding: new EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            Card(
+              elevation: 10.0,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14.0))),
+              child: new Column(
+                children: <Widget>[
+                  new ListTile(
+                    title: new Text(
+                      user.name,
+                      style: new TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: new Text('Name'),
+                    leading: new Icon(
+                      Icons.person,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  new Divider(),
+                  new ListTile(
+                    title: new Text(
+                      "${user.honor}",
+                      style: new TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: new Text('Rank'),
+                    leading: new Icon(Icons.contact_phone,
+                        color: Theme.of(context).primaryColor),
+                  ),
+                  new ListTile(
+                    title: new Text(
+                      user.clan,
+                      style: new TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    subtitle: new Text('Clan'),
+                    leading: new Icon(Icons.home,
+                        color: Theme.of(context).primaryColor),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  ),
+                ],
+              ),
+            ),
+            Card(
+              elevation: 10.0,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14.0))),
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    title: Text('总览'),
+                    leading: Icon(
+                      Icons.assessment,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text("${user.codeChallenges.totalAuthored}"),
+                    subtitle: Text('发布'),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  ),
+                  ListTile(
+                    title: Text("${user.codeChallenges.totalCompleted}"),
+                    subtitle: Text('完成'),
+                    trailing: Icon(Icons.keyboard_arrow_right),
+                  )
+                ],
+              ),
+            ),
+            Card(
+              elevation: 10.0,
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(14.0))),
+              color: Colors.black38,
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      'Rank 总览',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    leading: Icon(
+                      Icons.assessment,
+                      color: Theme.of(context).accentColor,
+                    ),
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Text(
+                      user.ranks.overall.name,
+                      style:
+                          TextStyle(color: makeColor(user.ranks.overall.color)),
+                    ),
+                    subtitle: Text(
+                      'Name',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "${user.ranks.overall.score}",
+                      style:
+                          TextStyle(color: makeColor(user.ranks.overall.color)),
+                    ),
+                    subtitle: Text(
+                      'Score',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }
 
