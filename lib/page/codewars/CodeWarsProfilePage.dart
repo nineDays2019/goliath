@@ -8,6 +8,7 @@ import 'package:goliath/page/common/CommonErrorPage.dart';
 import 'package:goliath/page/common/CommonLoadingPage.dart';
 import 'package:goliath/service/CodeWarsService.dart';
 import 'package:goliath/widgets/CommonShadowContainer.dart';
+import 'package:goliath/widgets/WidgetBuilder.dart';
 
 class CodeWarsProfilePage extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class CodeWarsProfilePage extends StatelessWidget {
     return Theme(
       data: new ThemeData(
         accentColor: Colors.yellow,
-        primaryColor: Colors.blue,
+        primaryColor: Color.fromARGB(255, 69, 109, 243),
       ),
       child: _ProfileContainer(),
     );
@@ -51,7 +52,6 @@ class _ProfileContainerState extends State<_ProfileContainer> {
               onPressed: () {
                 setState(() {
                   futureUser = CodeWarsService.requestUser("qiaoyunrui");
-                  print("Hello");
                 });
               },
             );
@@ -75,49 +75,55 @@ class _ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverAppBar(
-              expandedHeight: 200.0,
-              floating: false,
-              pinned: true,
-              brightness: Brightness.dark,
-              flexibleSpace: FlexibleSpaceBar(
-                centerTitle: true,
-                title: Text(
-                  user.username,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                expandedHeight: 200.0,
+                floating: false,
+                pinned: true,
+                brightness: Brightness.dark,
+                flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
+                  title: Text(
+                    user.username,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  background: Image.asset(
+                    "images/codewars_content.png",
+                    fit: BoxFit.cover,
                   ),
                 ),
-                background: Image.asset(
-                  "images/codewars_content.png",
-                  fit: BoxFit.cover,
-                ),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Scaffold.of(context).showSnackBar(new SnackBar(
+                        content: Text("More"),
+                      ));
+                      print(user.ranks.overall.name);
+                    },
+                    tooltip: "更多",
+                  ),
+                ],
+              )
+            ];
+          },
+          body: ListView(
+            children: <Widget>[
+              MessageCard(
+                user: user,
               ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).showSnackBar(new SnackBar(
-                      content: Text("More"),
-                    ));
-                    print(user.ranks.overall.name);
-                  },
-                  tooltip: "更多",
-                ),
-              ],
-            )
-          ];
-        },
-        body: MessageCard(
-          user: user,
-        ),
-      ),
+              RanksCard(
+                user: user,
+              )
+            ],
+          )),
     );
   }
 
@@ -184,74 +190,85 @@ class MessageCard extends StatelessWidget {
                 ],
               ),
             ),
-            Card(
-              elevation: 10.0,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))),
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text('总览'),
-                    leading: Icon(
-                      Icons.assessment,
-                      color: Theme.of(context).primaryColor,
+            Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Card(
+                elevation: 10.0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(14.0))),
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      title: Text('总览'),
+                      leading: Icon(
+                        Icons.assessment,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
-                  ),
-                  Divider(),
-                  ListTile(
-                    title: Text("${user.codeChallenges.totalAuthored}"),
-                    subtitle: Text('发布'),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                  ListTile(
-                    title: Text("${user.codeChallenges.totalCompleted}"),
-                    subtitle: Text('完成'),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  )
-                ],
+                    Divider(),
+                    ListTile(
+                      title: Text("${user.codeChallenges.totalAuthored}"),
+                      subtitle: Text('发布'),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                    ),
+                    ListTile(
+                      title: Text("${user.codeChallenges.totalCompleted}"),
+                      subtitle: Text('完成'),
+                      trailing: Icon(Icons.keyboard_arrow_right),
+                    )
+                  ],
+                ),
               ),
             ),
-            Card(
-              elevation: 10.0,
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(14.0))),
-              color: Colors.black38,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    title: Text(
-                      'Rank 总览',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    leading: Icon(
-                      Icons.assessment,
-                      color: Theme.of(context).accentColor,
-                    ),
+            Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Card(
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(14.0))),
+                elevation: 10.0,
+                child: Container(
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        title: Text(
+                          'Rank 总览',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        leading: Icon(
+                          Icons.assessment,
+                          color: makeColor(user.ranks.overall.color),
+                        ),
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text(
+                          user.ranks.overall.name,
+                          style: TextStyle(
+                              color: makeColor(user.ranks.overall.color)),
+                        ),
+                        subtitle: Text(
+                          'Name',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      ListTile(
+                        title: Text(
+                          "${user.ranks.overall.score}",
+                          style: TextStyle(
+                              color: makeColor(user.ranks.overall.color)),
+                        ),
+                        subtitle: Text(
+                          'Score',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      )
+                    ],
                   ),
-                  Divider(),
-                  ListTile(
-                    title: Text(
-                      user.ranks.overall.name,
-                      style:
-                          TextStyle(color: makeColor(user.ranks.overall.color)),
-                    ),
-                    subtitle: Text(
-                      'Name',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(
-                      "${user.ranks.overall.score}",
-                      style:
-                          TextStyle(color: makeColor(user.ranks.overall.color)),
-                    ),
-                    subtitle: Text(
-                      'Score',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
+                  decoration: buildGradient([
+                    Color.fromARGB(255, 69, 109, 243),
+                    Color.fromARGB(255, 93, 172, 248)
+                  ]),
+                ),
               ),
             )
           ],
@@ -260,9 +277,64 @@ class MessageCard extends StatelessWidget {
 }
 
 class RanksCard extends StatelessWidget {
+  final CodeWarsUser user;
+
+  RanksCard({Key key, this.user}) : super(key: key);
+
+  buildRanks() {
+    var items = <Widget>[];
+    user.ranks.languages.forEach((key, value) {
+      items.add(
+        Padding(
+          padding:
+              EdgeInsets.only(top: 4.0, left: 8.0, right: 8.0, bottom: 4.0),
+          child: Card(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(14.0))),
+            elevation: 10.0,
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    key.substring(0, 1).toUpperCase() + key.substring(1),
+                  ),
+                  leading: Icon(
+                    Icons.code,
+                    color: makeColor(value.color),
+                  ),
+                ),
+                Divider(),
+                ListTile(
+                  title: Text(
+                    value.name,
+                    style: TextStyle(color: makeColor(value.color)),
+                  ),
+                  subtitle: Text(
+                    'Name',
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    "${value.score}",
+                    style: TextStyle(color: makeColor(value.color)),
+                  ),
+                  subtitle: Text(
+                    'Score',
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    });
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Column(
+      children: buildRanks(),
+    );
   }
 }

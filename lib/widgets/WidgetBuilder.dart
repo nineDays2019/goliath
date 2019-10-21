@@ -9,3 +9,11 @@ buildRoundDecoration(Color color) {
         top: Radius.elliptical(20, 50),
       ));
 }
+
+buildGradient(List<Color> colors) {
+  return new BoxDecoration(
+    borderRadius: new BorderRadius.all(Radius.circular(14.0)),
+    gradient: LinearGradient(
+        begin: Alignment.topLeft, end: Alignment.bottomRight, colors: colors),
+  );
+}
