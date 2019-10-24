@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:goliath/service/CodeWarsService.dart';
 import 'package:goliath/service/DBService.dart';
 
 class CodeWarsSearchPage extends StatelessWidget {

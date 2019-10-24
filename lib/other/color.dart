@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-makeColor(String colorStr) {
+makeCodeWarsColor(String colorStr) {
   switch (colorStr) {
-    case "white":
-      return Color.fromARGB(255, 250, 222, 85);
-    case "yellow":
+    case "white": //  显示为绿色
+      return Colors.green;
+    case "yellow": // 显示为黄色
       return Color.fromARGB(255, 247, 205, 72);
-    case "blue":
-      return Color.fromARGB(255, 245, 192, 71);
-    case "purple":
-      return Color.fromARGB(255, 244, 178, 62);
+    case "blue": // 显示为红色
+      return Colors.red;
+    case "purple": // 显示为紫色
+      return Colors.purple;
   }
 }

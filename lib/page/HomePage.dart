@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 
 import 'DrawerPage.dart';
 import 'codewars/CodeWarsProfilePage.dart';
+import 'codewars/CodeWarsSearchPage.dart';
 import 'todo/SearchTodoPage.dart';
 
 class HomePage extends StatefulWidget {
@@ -94,7 +95,7 @@ class _HomePageState extends State<HomePage> {
 
   void showSearchTodoPage(BuildContext context) async {
     final String result =
-        await showSearch(context: context, delegate: SearchTodoDelegate());
+        await showSearch(context: context, delegate: CodeWarsSearchDelegate());
     if (result != null) {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text('搜索： $result'),

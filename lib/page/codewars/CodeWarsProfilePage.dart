@@ -236,7 +236,7 @@ class MessageCard extends StatelessWidget {
                         ),
                         leading: Icon(
                           Icons.assessment,
-                          color: makeColor(user.ranks.overall.color),
+                          color: makeCodeWarsColor(user.ranks.overall.color),
                         ),
                       ),
                       Divider(),
@@ -244,7 +244,7 @@ class MessageCard extends StatelessWidget {
                         title: Text(
                           user.ranks.overall.name,
                           style: TextStyle(
-                              color: makeColor(user.ranks.overall.color)),
+                              color: makeCodeWarsColor(user.ranks.overall.color)),
                         ),
                         subtitle: Text(
                           'Name',
@@ -255,7 +255,7 @@ class MessageCard extends StatelessWidget {
                         title: Text(
                           "${user.ranks.overall.score}",
                           style: TextStyle(
-                              color: makeColor(user.ranks.overall.color)),
+                              color: makeCodeWarsColor(user.ranks.overall.color)),
                         ),
                         subtitle: Text(
                           'Score',
@@ -300,14 +300,14 @@ class RanksCard extends StatelessWidget {
                   ),
                   leading: Icon(
                     Icons.code,
-                    color: makeColor(value.color),
+                    color: makeCodeWarsColor(value.color),
                   ),
                 ),
                 Divider(),
                 ListTile(
                   title: Text(
                     value.name,
-                    style: TextStyle(color: makeColor(value.color)),
+                    style: TextStyle(color: makeCodeWarsColor(value.color)),
                   ),
                   subtitle: Text(
                     'Name',
@@ -316,7 +316,7 @@ class RanksCard extends StatelessWidget {
                 ListTile(
                   title: Text(
                     "${value.score}",
-                    style: TextStyle(color: makeColor(value.color)),
+                    style: TextStyle(color: makeCodeWarsColor(value.color)),
                   ),
                   subtitle: Text(
                     'Score',
