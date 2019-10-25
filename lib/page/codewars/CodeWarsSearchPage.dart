@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart' as words;
 
+import 'CodeWarsProfilePage.dart';
+
 /**
  * CodeWars 搜索页
  */
@@ -45,7 +47,7 @@ class CodeWarsSearchDelegate extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text("Result: $query");
+    return CodeWarsProfileLitePage(username: query);
   }
 
   @override

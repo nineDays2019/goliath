@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
 import 'package:goliath/other/color.dart';
 import 'package:goliath/page/common/CommonErrorPage.dart';
@@ -244,7 +245,8 @@ class MessageCard extends StatelessWidget {
                         title: Text(
                           user.ranks.overall.name,
                           style: TextStyle(
-                              color: makeCodeWarsColor(user.ranks.overall.color)),
+                              color:
+                                  makeCodeWarsColor(user.ranks.overall.color)),
                         ),
                         subtitle: Text(
                           'Name',
@@ -255,7 +257,8 @@ class MessageCard extends StatelessWidget {
                         title: Text(
                           "${user.ranks.overall.score}",
                           style: TextStyle(
-                              color: makeCodeWarsColor(user.ranks.overall.color)),
+                              color:
+                                  makeCodeWarsColor(user.ranks.overall.color)),
                         ),
                         subtitle: Text(
                           'Score',
@@ -335,6 +338,114 @@ class RanksCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: buildRanks(),
+    );
+  }
+}
+
+class CodeWarsProfileLitePage extends StatefulWidget {
+  final String username;
+
+  CodeWarsProfileLitePage({Key key, this.username}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CodeWarsProfileLitePageState(username);
+  }
+}
+
+class _CodeWarsProfileLitePageState extends State<CodeWarsProfileLitePage> {
+  final String username;
+
+  Future<CodeWarsUser> futureUser;
+
+  _CodeWarsProfileLitePageState(this.username);
+
+  @override
+  void initState() {
+    futureUser = CodeWarsService.requestUser(username);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: futureUser,
+      builder: (BuildContext context, AsyncSnapshot<CodeWarsUser> user) {
+        if (user.connectionState != ConnectionState.waiting) {
+          if (user.data != null) {
+            return ListView(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: 8.0, left: 8.0, right: 8.0, bottom: 4.0),
+                  child: Container(
+                    child: Card(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
+                      ),
+                      elevation: 10.0,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            child: Center(
+                                child: CommonShadowContainer(
+                              child: Text(
+                                "username",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            )),
+                            padding: EdgeInsets.all(16),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(16),
+                            child: Center(
+                              child: Text(
+                                user.data.username,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 30,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      color: Colors.transparent,
+                    ),
+                    decoration: new BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "images/codewars_content.png",
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: new BorderRadius.all(Radius.circular(14.0)),
+                    ),
+                  ),
+                ),
+                MessageCard(user: user.data),
+                RanksCard(
+                  user: user.data,
+                )
+              ],
+            );
+          } else {
+            return CommonErrorPage(
+              onPressed: () {
+                setState(() {
+                  futureUser = CodeWarsService.requestUser("qiaoyunrui");
+                });
+              },
+            );
+          }
+        } else {
+          return CommonLoadingPage(
+            onPressed: () => Navigator.of(context).pop(),
+          );
+        }
+      },
     );
   }
 }

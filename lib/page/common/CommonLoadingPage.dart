@@ -11,6 +11,7 @@ class CommonLoadingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
+      alignment: Alignment.center,
       color: Colors.grey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

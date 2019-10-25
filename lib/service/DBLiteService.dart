@@ -1,5 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
+/**
+ * 轻量级存储
+ */
 class DBLiteService {
   static DBLiteService _instance;
 
