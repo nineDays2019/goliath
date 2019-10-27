@@ -373,61 +373,76 @@ class _CodeWarsProfileLitePageState extends State<CodeWarsProfileLitePage> {
       builder: (BuildContext context, AsyncSnapshot<CodeWarsUser> user) {
         if (user.connectionState != ConnectionState.waiting) {
           if (user.data != null) {
-            return ListView(
+            return Stack(
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: 8.0, left: 8.0, right: 8.0, bottom: 4.0),
-                  child: Container(
-                    child: Card(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(14.0)),
-                      ),
-                      elevation: 10.0,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            child: Center(
-                                child: CommonShadowContainer(
-                              child: Text(
-                                "username",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )),
-                            padding: EdgeInsets.all(16),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Center(
-                              child: Text(
-                                user.data.username,
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      color: Colors.transparent,
-                    ),
-                    decoration: new BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage(
-                          "images/codewars_content.png",
+                ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 8.0, left: 8.0, right: 8.0, bottom: 4.0),
+                      child: Card(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(14.0)),
                         ),
-                        fit: BoxFit.cover,
+                        elevation: 10.0,
+                        child: Container(
+                          child: Column(
+                            children: <Widget>[
+                              Padding(
+                                child: Center(
+                                    child: CommonShadowContainer(
+                                  child: Text(
+                                    "username",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                )),
+                                padding: EdgeInsets.all(16),
+                              ),
+                              Padding(
+                                  padding: EdgeInsets.all(16),
+                                  child: CommonShadowContainer(
+                                    child: Center(
+                                      child: Text(
+                                        user.data.username,
+                                        style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontSize: 30,
+                                        ),
+                                      ),
+                                    ),
+                                  )),
+                            ],
+                          ),
+                          decoration: new BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(
+                                "images/codewars_content.png",
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius:
+                                new BorderRadius.all(Radius.circular(14.0)),
+                          ),
+                        ),
                       ),
-                      borderRadius: new BorderRadius.all(Radius.circular(14.0)),
                     ),
-                  ),
+                    MessageCard(user: user.data),
+                    RanksCard(
+                      user: user.data,
+                    )
+                  ],
                 ),
-                MessageCard(user: user.data),
-                RanksCard(
-                  user: user.data,
+                Positioned(
+                  right: 14,
+                  bottom: 14,
+                  child: FloatingActionButton(
+                    child: Icon(
+                      Icons.add,
+                    ),
+                    backgroundColor: Theme.of(context).accentColor,
+                  ),
                 )
               ],
             );

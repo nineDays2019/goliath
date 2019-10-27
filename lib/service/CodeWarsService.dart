@@ -1,12 +1,12 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
 
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
+import 'package:goliath/service/RequestCacheService.dart';
 
 class CodeWarsService {
   static var dio = new Dio();
   static const BASE_URL = "https://www.codewars.com";
+  static var useCache = true;
 
   /**
    * 读取用户信息
@@ -15,20 +15,23 @@ class CodeWarsService {
     var url = "$BASE_URL/api/v1/users/$idOrUsername";
     try {
       var response = await Dio().get(url);
-//      print("return: ${response.data}");
+      if (useCache) {
+        RequestCacheService().put(url, response);
+      }
       return new CodeWarsUser.fromJson(response.data);
     } catch (e) {
-      print(e);
-      return null;
-    }
-    /*if (response.statusCode == HttpStatus.ok) {
-        var json = await response.transform(utf8.decoder).join();
-        print(json);
-        return new CodeWarsUser();
+      print("$url\nerror: $e");
+      if (useCache) {
+        var cacheResponse = RequestCacheService().get(url);
+        if (cacheResponse == null) {
+          return null;
+        } else {
+          return new CodeWarsUser.fromJson(cacheResponse.data);
+        }
       } else {
-        print("Not OK");
         return null;
-      }*/
+      }
+    }
   }
 }
 
