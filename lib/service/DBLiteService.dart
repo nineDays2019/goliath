@@ -19,7 +19,7 @@ class DBLiteService {
 
   SharedPreferences _preferences;
 
-  _getPreferences() async {
+  getPreferences() async {
     if (_preferences == null) {
       _preferences = await SharedPreferences.getInstance();
     }
@@ -27,14 +27,15 @@ class DBLiteService {
   }
 
   write(String key, String value) async {
-    await (await _getPreferences()).setString(key, value);
+    await (await getPreferences()).setString(key, value);
   }
 
   read(String key) async {
-    return await (await _getPreferences()).getString(key);
+    return await (await getPreferences()).getString(key);
   }
 
   remove(String key) async {
-    (await _getPreferences()).remove(key);
+    (await getPreferences()).remove(key);
   }
+
 }

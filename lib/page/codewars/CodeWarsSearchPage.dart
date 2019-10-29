@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart' as words;
+import 'package:goliath/service/SearchHistoryService.dart';
 
 import 'CodeWarsProfilePage.dart';
 
@@ -7,13 +8,15 @@ import 'CodeWarsProfilePage.dart';
  * CodeWars 搜索页
  */
 class CodeWarsSearchDelegate extends SearchDelegate<String> {
-  static const DB_NAME = "CodeWarsHistory";
+  static const DB_LITE_NAME = "CodeWarsHistory";
 
   final List<String> _words;
+  final List<String> _history;
 
   CodeWarsSearchDelegate()
       : _words = List.from(Set.from(words.all))
-          ..sort((w1, w2) => w1.toLowerCase().compareTo(w2.toLowerCase()));
+          ..sort((w1, w2) => w1.toLowerCase().compareTo(w2.toLowerCase())),
+        _history = SearchHistoryService(DB_LITE_NAME).getAll();
 
   // 返回一个控件列表，显示为搜索框右面的图标
   @override
@@ -53,12 +56,14 @@ class CodeWarsSearchDelegate extends SearchDelegate<String> {
   @override
   Widget buildSuggestions(BuildContext context) {
     final Iterable<String> suggestions =
-        _words.where((word) => word.startsWith(query));
+        this.query.isEmpty && _history != null
+            ? _history.reversed
+            : _words.where((word) => word.startsWith(query));
     return _CodeWarsSuggestionList(
       query: this.query,
       suggestions: suggestions.toList(),
       onSelected: (suggestion) {
-        // 添加搜索历史
+        SearchHistoryService(DB_LITE_NAME).add(suggestion);
         query = suggestion;
         showResults(context);
       },
