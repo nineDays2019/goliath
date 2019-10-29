@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
 import 'package:goliath/service/RequestCacheService.dart';
+import 'package:goliath/utils/request_utils.dart';
 
 class CodeWarsService {
   static var dio = new Dio();
@@ -13,12 +14,12 @@ class CodeWarsService {
    */
   static Future<CodeWarsUser> requestUser(String idOrUsername) async {
     var url = "$BASE_URL/api/v1/users/$idOrUsername";
-    try {
+    /*try {
       var response = await Dio().get(url);
       if (useCache) {
         RequestCacheService().put(url, response);
       }
-      return new CodeWarsUser.fromJson(response.data);
+      return CodeWarsUser.fromJson(response.data);
     } catch (e) {
       print("$url\nerror: $e");
       if (useCache) {
@@ -31,7 +32,9 @@ class CodeWarsService {
       } else {
         return null;
       }
-    }
+    }*/
+    return await sampleGet<CodeWarsUser>(
+        url, (Response response) => CodeWarsUser.fromJson(response.data));
   }
 }
 

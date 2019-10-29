@@ -21,6 +21,7 @@ class RequestCacheService {
   get(String url) => _cache[url];
 
   put(String url, Response response) {
+    if (response == null) return;
     if (_cache.containsKey(url)) {
       _cache[url] = response;
     } else {
