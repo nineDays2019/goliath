@@ -27,7 +27,8 @@ class CommonLoadingPage extends StatelessWidget {
                     color: Colors.white,
                     decoration: TextDecoration.none)),
           ),
-          Padding(
+//          先隐藏取消按钮
+          /*Padding(
               padding: const EdgeInsets.only(top: 20),
               child: FlatButton(
                 child: Text(
@@ -38,7 +39,7 @@ class CommonLoadingPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: this.onPressed,
-              ))
+              ))*/
         ],
       ),
     );

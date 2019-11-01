@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:goliath/model/codewars/CodeWarsChallengesWrapper.dart';
 
 import 'package:goliath/model/codewars/CodeWarsUser.dart';
 import 'package:goliath/service/RequestCacheService.dart';
@@ -11,31 +12,25 @@ class CodeWarsService {
 
   /**
    * 读取用户信息
+   * https://www.codewars.com/api/v1/users/qiaoyunrui
    */
   static Future<CodeWarsUser> requestUser(String idOrUsername) async {
     var url = "$BASE_URL/api/v1/users/$idOrUsername";
-    /*try {
-      var response = await Dio().get(url);
-      if (useCache) {
-        RequestCacheService().put(url, response);
-      }
-      return CodeWarsUser.fromJson(response.data);
-    } catch (e) {
-      print("$url\nerror: $e");
-      if (useCache) {
-        var cacheResponse = RequestCacheService().get(url);
-        if (cacheResponse == null) {
-          return null;
-        } else {
-          return new CodeWarsUser.fromJson(cacheResponse.data);
-        }
-      } else {
-        return null;
-      }
-    }*/
     return await sampleGet<CodeWarsUser>(
         url, (Response response) => CodeWarsUser.fromJson(response.data));
   }
-}
 
-//https://www.codewars.com/api/v1/users/qiaoyunrui
+  /**
+   * 获取用户 Challenge 信息
+   * https://www.codewars.com/api/v1/users/qiaoyunrui/code-challenges/completed?page=1
+   */
+  static Future<CodeWarsChallengesWrapper> requestChallenge(String idOrUsername,
+      {int page = 0}) async {
+    var url =
+        "$BASE_URL/api/v1/users/$idOrUsername/code-challenges/completed?page=$page";
+    return await sampleGet<CodeWarsChallengesWrapper>(
+        url,
+        (Response response) =>
+            CodeWarsChallengesWrapper.fromJson(response.data));
+  }
+}
