@@ -4,6 +4,10 @@ import 'package:goliath/page/common/CommonErrorPage.dart';
 import 'package:goliath/page/common/CommonLoadingPage.dart';
 import 'package:goliath/service/CodeWarsService.dart';
 
+/**
+ * 最后会变成一个公用的 CodeWars Challenge 列表
+ * 先这样凑合一下
+ */
 class CodeWarsChallengeListPage extends StatelessWidget {
   String id;
   String name;
@@ -55,7 +59,6 @@ class _ChallengeListState extends State<_ChallengeListPage> {
         if (wrapper.connectionState != ConnectionState.waiting) {
           if (wrapper.data != null) {
             _wrapper = wrapper.data;
-//            return Text("HelloWorld");
             return ListView.builder(
                 itemBuilder: buildItem, itemCount: _wrapper.data.length);
           } else {
@@ -75,16 +78,56 @@ class _ChallengeListState extends State<_ChallengeListPage> {
   CodeWarsChallengesWrapper _wrapper;
 
   Widget buildItem(BuildContext context, int index) {
-    /*if (index.isOdd) {
-      return new Divider();
+    var name = _wrapper.data[index].name;
+    var length = _wrapper.data.length;
+    if (name == null || name.isEmpty) {
+      name = "No Name";
     }
-    var textStyle = new TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0);
-    return new Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: new Text("Name: ", style: textStyle),
-    );*/
-    return ListTile(
-      title: Text(_wrapper.data[index].name),
+    var child = <Widget>[
+      ListTile(
+        leading: CircleAvatar(
+          child: Text(name.toUpperCase().substring(0, 1)),
+        ),
+        title: Text(name),
+        subtitle: Text(_wrapper.data[index].completedAt.substring(0, 10)),
+        trailing: Icon(Icons.keyboard_arrow_right),
+      ),
+      Padding(
+        padding: new EdgeInsets.symmetric(horizontal: 16.0),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Wrap(
+            spacing: 8.0,
+            runSpacing: 4.0,
+            alignment: WrapAlignment.start,
+            children:
+                createLanguagesWidgets(_wrapper.data[index].completedLanguages),
+          ),
+        ),
+      )
+    ];
+    if (index != length - 1) {
+      child.add(Divider());
+    }
+    return Column(
+      children: child,
     );
   }
 }
+
+createLanguagesWidgets(List<String> languages) {
+  if (languages == null) return <Widget>[];
+  List<Widget> widgets = [];
+  for (var language in languages) {
+    widgets.add(Chip(
+      avatar: new CircleAvatar(
+        backgroundColor: Colors.lightBlue,
+        child: Text(language.toUpperCase().substring(0, 1)),
+      ),
+      label: Text(language),
+    ));
+  }
+  return widgets;
+}
+
+// todo 解析时间

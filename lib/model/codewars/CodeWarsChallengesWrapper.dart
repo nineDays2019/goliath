@@ -29,7 +29,7 @@ class CodeWarsChallenge {
     slug = json['slug'];
     completedAt = json['completedAt'];
     completedLanguages = [];
-    completedLanguages = json['completedLanguages'].forEach((item) {
+    json['completedLanguages'].forEach((item) {
       completedLanguages.add(item.toString());
     });
   }
