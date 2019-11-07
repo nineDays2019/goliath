@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:goliath/utils/functions.dart';
 
+/**
+ * 完后的挑战
+ */
 class CodeWarsChallengesWrapper {
   int totalPages;
   int totalItems;
@@ -34,3 +37,31 @@ class CodeWarsChallenge {
     });
   }
 }
+
+/**
+ * 创作的挑战
+ */
+class CodeWarsAuthoredChallenge {
+  String id;
+  String name;
+  String description;
+  int rank;
+  String rankName;
+  List<String> tags;
+  List<String> languages;
+
+  CodeWarsAuthoredChallenge.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        description = json['description'],
+        rank = json['rank'],
+        rankName = json['rankName'],
+        tags = map2<dynamic, String>(json['tags'], (item) => item.toString()),
+        languages =
+            map2<dynamic, String>(json['languages'], (item) => item.toString());
+}
+
+List<CodeWarsAuthoredChallenge> parseCodeWarsAuthoredChallenges(
+        List<dynamic> list) =>
+    map2<dynamic, CodeWarsAuthoredChallenge>(
+        list, (item) => CodeWarsAuthoredChallenge.fromJson(item));

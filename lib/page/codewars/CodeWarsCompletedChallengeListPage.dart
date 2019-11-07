@@ -4,21 +4,17 @@ import 'package:goliath/page/common/CommonErrorPage.dart';
 import 'package:goliath/page/common/CommonLoadingPage.dart';
 import 'package:goliath/service/CodeWarsService.dart';
 
-/**
- * 最后会变成一个公用的 CodeWars Challenge 列表
- * 先这样凑合一下
- */
-class CodeWarsChallengeListPage extends StatelessWidget {
+class CodeWarsCompletedChallengeListPage extends StatelessWidget {
   String id;
   String name;
 
-  CodeWarsChallengeListPage({Key key, this.id, this.name}) : super(key: key);
+  CodeWarsCompletedChallengeListPage({Key key, this.id, this.name}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("$name's Challenges"),
+        title: Text(name),
       ),
       body: _ChallengeListPage(id),
     );
@@ -46,7 +42,7 @@ class _ChallengeListState extends State<_ChallengeListPage> {
   @override
   void initState() {
     futureChallengesWrapper =
-        CodeWarsService.requestChallenge(id, page: this.page);
+        CodeWarsService.requestCompleteChallenge(id, page: this.page);
     super.initState();
   }
 
@@ -65,7 +61,7 @@ class _ChallengeListState extends State<_ChallengeListPage> {
             return CommonErrorPage(
                 onPressed: () => setState(() {
                       futureChallengesWrapper =
-                          CodeWarsService.requestChallenge(id, page: this.page);
+                          CodeWarsService.requestCompleteChallenge(id, page: this.page);
                     }));
           }
         } else {
@@ -129,5 +125,3 @@ createLanguagesWidgets(List<String> languages) {
   }
   return widgets;
 }
-
-// todo 解析时间

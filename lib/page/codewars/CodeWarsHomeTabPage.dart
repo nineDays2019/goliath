@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:goliath/page/codewars/CodeWarsAuthoredChallengeListPage.dart';
 import 'package:goliath/page/codewars/CodeWarsProfilePage.dart';
 
-import 'CodeWarsChallengeListPage.dart';
+import 'CodeWarsCompletedChallengeListPage.dart';
 
 class CodeWarsHomeTabPage extends StatefulWidget {
   @override
@@ -33,13 +34,13 @@ class _CodeWarsHomeTabState extends State<CodeWarsHomeTabPage> {
     return Scaffold(
       body: Center(
         child: <Widget>[
-          Text(
-            'Index 0: Home',
-            style: optionStyle,
+          CodeWarsAuthoredChallengeListPage(
+            id: "51d4377392e15fdca8000913",
+            name: "Juhezi",
           ),
-          CodeWarsChallengeListPage(
+          CodeWarsCompletedChallengeListPage(
             id: "qiaoyunrui",
-            name: "juhezi",
+            name: "Juhezi",
           ),
           _profilePage
         ].elementAt(_selectedIndex),
